@@ -36,11 +36,8 @@ class Hkp
 
 
     def get(path, redirect_depth = 0)
-      puts "Net::HTTP.start #{@host}"
       Net::HTTP.start @host, @port, use_ssl: @use_ssl,
                                     verify_mode: @ssl_verify_mode do |http|
-
-        puts "Net::HTTP::Get.new #{path}"
 
         request = Net::HTTP::Get.new path
         response = http.request request
@@ -55,10 +52,6 @@ class Hkp
             http_get response['location'], redirect_depth + 1
           end
         else
-          puts "response.code => #{response.code}"
-          puts "response.body => #{response.body}"
-          puts "response.inspect => #{response.inspect}"
-
           raise InvalidResponse, response.code
         end
 
