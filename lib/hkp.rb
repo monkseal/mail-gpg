@@ -52,6 +52,10 @@ class Hkp
             http_get response['location'], redirect_depth + 1
           end
         else
+          puts "response.code => #{response.code}"
+          puts "response.body => #{response.body}"
+          puts "response.inspect => #{response.inspect}"
+
           raise InvalidResponse, response.code
         end
 
