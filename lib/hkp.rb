@@ -36,8 +36,11 @@ class Hkp
 
 
     def get(path, redirect_depth = 0)
+      puts "Net::HTTP.start #{@host}"
       Net::HTTP.start @host, @port, use_ssl: @use_ssl,
                                     verify_mode: @ssl_verify_mode do |http|
+
+        puts "Net::HTTP::Get.new #{path}"
 
         request = Net::HTTP::Get.new path
         response = http.request request
