@@ -120,7 +120,9 @@ module Mail
       # and eventually already imported keys in the keychain are ignored.
       def self.keys_for_data(emails_or_shas_or_keys, key_data = nil)
         if key_data
-          puts 'key_data BRANCH'
+          puts "key_data BRANCH"
+          puts "emails_or_shas_or_keys => #{emails_or_shas_or_keys}"
+          puts "key_data => #{key_data}"
           # in this case, emails_or_shas_or_keys is supposed to be the list of
           # recipients, and key_data the key material to be used.
           # We now map these to whatever we find in key_data for each of these
@@ -141,7 +143,10 @@ module Mail
                        # key id or fingerprint
                        k
                      end
+
             unless key_id.nil? || key_id.empty?
+              puts "unless key_id => #{key_id}"
+              puts "GPGME::Key.find(:public, key_id, :encrypt)"
               GPGME::Key.find(:public, key_id, :encrypt)
             end
           end.flatten.compact
