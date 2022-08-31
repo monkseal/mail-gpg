@@ -137,6 +137,7 @@ module Mail
                        # nothing
                        nil
                      when /-----BEGIN PGP/
+                        puts "GPGME::Key.import(k) k=> #{k}"
                        # ASCII key data
                        GPGME::Key.import(k).imports.map(&:fpr)
                      else
