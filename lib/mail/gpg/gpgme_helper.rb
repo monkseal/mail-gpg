@@ -153,7 +153,8 @@ module Mail
         elsif emails_or_shas_or_keys and emails_or_shas_or_keys.size > 0
           # key lookup in keychain for all receivers
           puts 'emails_or_shas_or_keys BRANCH'
-          GPGME::Key.find :public, emails_or_shas_or_keys, :encrypt
+          puts "emails_or_shas_or_keys => #{emails_or_shas_or_keys}"
+          GPGME::Key.find(:public, emails_or_shas_or_keys, :encrypt)
         else
           puts 'else BRANCH'
           # empty array given
