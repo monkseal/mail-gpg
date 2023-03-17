@@ -122,7 +122,7 @@ module Mail
         if key_data
           puts "key_data BRANCH"
           puts "emails_or_shas_or_keys => #{emails_or_shas_or_keys}"
-          puts "key_data => #{key_data}"
+          puts "key_data.size => #{key_data.size}"
           # in this case, emails_or_shas_or_keys is supposed to be the list of
           # recipients, and key_data the key material to be used.
           # We now map these to whatever we find in key_data for each of these
