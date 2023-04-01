@@ -119,6 +119,7 @@ module Mail
       # if key_data is given, _only_ key material from there is used,
       # and eventually already imported keys in the keychain are ignored.
       def self.keys_for_data(emails_or_shas_or_keys, key_data = nil)
+        puts "caller.join => #{caller.join("\n")}"
         if key_data
           puts "key_data BRANCH"
           puts "emails_or_shas_or_keys => #{emails_or_shas_or_keys}"
