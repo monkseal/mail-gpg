@@ -101,7 +101,7 @@ class Hkp
 
   # returns the key data as returned from the server as a string
   def fetch(id)
-    result = hkp_client.get "/pks/lookup?options=mr&op=get&search=0x#{URI.escape id}"
+    result = hkp_client.get "/pks/lookup?options=mr&op=get&search=0x#{URI::Parser.new.escape(id)}"
     return clean_key(result) if result
 
   rescue Exception
