@@ -83,7 +83,7 @@ class Hkp
   # and what info they return besides the key id
   def search(name)
     [].tap do |results|
-      result = hkp_client.get "/pks/lookup?op=index&options=mr&search=#{URI.escape name}"
+      result = hkp_client.get "/pks/lookup?op=index&options=mr&search=#{URI::Parser.new.escape(name)}"
 
       result.each_line do |l|
         components = l.strip.split(':')
