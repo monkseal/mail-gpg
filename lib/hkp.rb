@@ -83,7 +83,7 @@ class Hkp
   # and what info they return besides the key id
   def search(name)
     [].tap do |results|
-      result = hkp_client.get "/pks/lookup?options=mr&search=#{URI.escape name}"
+      result = hkp_client.get "/pks/lookup?options=mr&search=#{URI::Parser.new.escape(name)}"
 
       result.each_line do |l|
         components = l.strip.split(':')
@@ -101,7 +101,7 @@ class Hkp
 
   # returns the key data as returned from the server as a string
   def fetch(id)
-    result = hkp_client.get "/pks/lookup?options=mr&op=get&search=0x#{URI.escape id}"
+    result = hkp_client.get "/pks/lookup?options=mr&op=get&search=0x#{URI::Parser.new.escape(id)}"
     return clean_key(result) if result
 
   rescue Exception
