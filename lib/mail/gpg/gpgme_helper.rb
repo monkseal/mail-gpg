@@ -12,7 +12,7 @@ module Mail
         cipher_data = GPGME::Data.new(options[:output])
 
         recipient_keys = keys_for_data options[:recipients], options.delete(:keys)
-
+        puts "[GpgmeHelper] recipient_keys => #{recipient_keys}"
         if recipient_keys.empty?
           raise MissingKeysError.new('No keys to encrypt to!')
         end
@@ -119,7 +119,10 @@ module Mail
       # if key_data is given, _only_ key material from there is used,
       # and eventually already imported keys in the keychain are ignored.
       def self.keys_for_data(emails_or_shas_or_keys, key_data = nil)
+        puts "[GpgmeHelper] caller.join => #{caller.join("\n")}"
         if key_data
+          # puts "[GpgmeHelper] key_data BRANCH"
+          # puts "[GpgmeHelper] emails_or_shas_or_keys => #{emails_or_shas_or_keys}"
           # in this case, emails_or_shas_or_keys is supposed to be the list of
           # recipients, and key_data the key material to be used.
           # We now map these to whatever we find in key_data for each of these
@@ -134,20 +137,28 @@ module Mail
                        # nothing
                        nil
                      when /-----BEGIN PGP/
+                        # puts "[GpgmeHelper] GPGME::Key.import(k) k=> #{k}"
                        # ASCII key data
                        GPGME::Key.import(k).imports.map(&:fpr)
                      else
                        # key id or fingerprint
                        k
                      end
+            puts "[GpgmeHelper] key_id => #{key_id}"
+
             unless key_id.nil? || key_id.empty?
+              puts "[GpgmeHelper] unless key_id => #{key_id}"
+              puts "[GpgmeHelper] GPGME::Key.find(:public, key_id, :encrypt)"
               GPGME::Key.find(:public, key_id, :encrypt)
             end
           end.flatten.compact
         elsif emails_or_shas_or_keys and emails_or_shas_or_keys.size > 0
           # key lookup in keychain for all receivers
-          GPGME::Key.find :public, emails_or_shas_or_keys, :encrypt
+          puts '[GpgmeHelper] emails_or_shas_or_keys BRANCH'
+          puts "[GpgmeHelper] emails_or_shas_or_keys => #{emails_or_shas_or_keys}"
+          GPGME::Key.find(:public, emails_or_shas_or_keys, :encrypt)
         else
+          # puts '[GpgmeHelper] else BRANCH'
           # empty array given
           []
         end
